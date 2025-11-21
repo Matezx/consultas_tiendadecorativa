@@ -1,114 +1,226 @@
-// ============================
-// MongoDB - Observatorio Espacial
-// ============================
+// Seleccionar o crear la base de datos
+use tienda_decorativa
 
-// 1️⃣ Seleccionar o crear la base de datos
-use observatorio_espacial
+// Crear colecciones (opcional, MongoDB las crea al insertar, pero así queda más claro)
+db.createCollection("categorias")
+db.createCollection("productos")
 
-// 2️⃣ Crear la colección
-db.createCollection("observaciones")
+// Insertar categorías y guardar los ObjectId en variables
+const alfombrasId = db.categorias.insertOne({
+  nombre: "Alfombras",
+  descripcion: "Alfombras de interior y exterior",
+  slug: "alfombras",
+  activo: true,
+  creadoEn: new Date()
+}).insertedId;
 
-// 3️⃣ Insertar documentos de prueba
-db.observaciones.insertMany([
+const cortinasId = db.categorias.insertOne({
+  nombre: "Cortinas y persianas",
+  descripcion: "Cortinas, persianas y blackouts a medida",
+  slug: "cortinas-persianas",
+  activo: true,
+  creadoEn: new Date()
+}).insertedId;
+
+const mueblesExteriorId = db.categorias.insertOne({
+  nombre: "Muebles de exterior",
+  descripcion: "Salas, comedores y asoleadoras para exterior",
+  slug: "muebles-exterior",
+  activo: true,
+  creadoEn: new Date()
+}).insertedId;
+
+const papelId = db.categorias.insertOne({
+  nombre: "Papel de colgadura",
+  descripcion: "Papeles decorativos para paredes",
+  slug: "papel-colgadura",
+  activo: true,
+  creadoEn: new Date()
+}).insertedId;
+
+const pisosId = db.categorias.insertOne({
+  nombre: "Pisos SPC",
+  descripcion: "Pisos SPC resistentes al agua",
+  slug: "pisos-spc",
+  activo: true,
+  creadoEn: new Date()
+}).insertedId;
+
+const decoracionId = db.categorias.insertOne({
+  nombre: "Decoración",
+  descripcion: "Cuadros, jarrones y accesorios decorativos",
+  slug: "decoracion",
+  activo: true,
+  creadoEn: new Date()
+}).insertedId;
+
+
+// Insertar algunos productos
+db.productos.insertMany([
   {
-    objeto: "Marte",
-    tipo_objeto: "Planeta",
-    fecha_observacion: "2025-10-25",
-    ubicacion: "Nueva York, EE.UU.",
-    instrumento: "Telescopio Celestron NexStar 8SE",
-    magnitud_aparente: -2.1,
-    condiciones_climaticas: "Cielo despejado",
-    observador: "Jhon Sebastián Zuluaga",
-    comentarios: "Marte se observó con claridad y brillo notable."
+    nombre: "Alfombra de yute natural 2x3",
+    descripcion: "Alfombra de yute tono beige para sala o comedor.",
+    sku: "ALF-001",
+    precio: 520000,
+    stock: 8,
+    categoriaId: alfombrasId,
+    colores: ["beige"],
+    materiales: ["yute"],
+    medidas: { ancho: 2.0, largo: 3.0, unidad: "m" },
+    ambientesRecomendados: ["sala", "comedor"],
+    activo: true,
+    creadoEn: new Date()
   },
   {
-    objeto: "Andrómeda",
-    tipo_objeto: "Galaxia",
-    fecha_observacion: "2025-10-26",
-    ubicacion: "Bogotá, Colombia",
-    instrumento: "Telescopio Meade LX200",
-    magnitud_aparente: 3.4,
-    condiciones_climaticas: "Cielo parcialmente nublado",
-    observador: "Laura Gómez",
-    comentarios: "Se distingue el núcleo de la galaxia con claridad media."
+    nombre: "Cortina blackout gris",
+    descripcion: "Cortina blackout a medida en tono gris.",
+    sku: "COR-010",
+    precio: 380000,
+    stock: 15,
+    categoriaId: cortinasId,
+    colores: ["gris"],
+    materiales: ["poliéster"],
+    medidas: { ancho: 1.5, largo: 2.4, unidad: "m" },
+    ambientesRecomendados: ["habitación"],
+    activo: true,
+    creadoEn: new Date()
   },
   {
-    objeto: "Betelgeuse",
-    tipo_objeto: "Estrella",
-    fecha_observacion: "2025-10-24",
-    ubicacion: "Madrid, España",
-    instrumento: "Telescopio Sky-Watcher 130P",
-    magnitud_aparente: 0.42,
-    condiciones_climaticas: "Cielo despejado",
-    observador: "Carlos Ruiz",
-    comentarios: "Se notó el característico color rojizo intenso."
+    nombre: "Sala de exterior 3 puestos Sunfiber",
+    descripcion: "Sala de exterior resistente al sol y la lluvia.",
+    sku: "MUE-030",
+    precio: 2850000,
+    stock: 3,
+    categoriaId: mueblesExteriorId,
+    colores: ["beige", "madera"],
+    materiales: ["aluminio", "sunfiber"],
+    medidas: { ancho: 2.2, largo: 1.6, unidad: "m" },
+    ambientesRecomendados: ["terraza", "balcón", "jardín"],
+    activo: true,
+    creadoEn: new Date()
   },
   {
-    objeto: "Halley",
-    tipo_objeto: "Cometa",
-    fecha_observacion: "2025-10-23",
-    ubicacion: "Buenos Aires, Argentina",
-    instrumento: "Binoculares 20x80",
-    magnitud_aparente: 2.9,
-    condiciones_climaticas: "Cielo parcialmente nublado",
-    observador: "Sofía Martínez",
-    comentarios: "La cola era visible con dirección noreste."
-  },
-  {
-    objeto: "Orión",
-    tipo_objeto: "Nebulosa",
-    fecha_observacion: "2025-10-22",
-    ubicacion: "Ciudad de México, México",
-    instrumento: "Telescopio Dobson 200mm",
-    magnitud_aparente: 4.0,
-    condiciones_climaticas: "Cielo despejado",
-    observador: "Luis Fernández",
-    comentarios: "Detalles claros en el gas interestelar."
-  },
-  {
-    objeto: "Júpiter",
-    tipo_objeto: "Planeta",
-    fecha_observacion: "2025-10-25",
-    ubicacion: "Nueva York, EE.UU.",
-    instrumento: "Telescopio Celestron NexStar 8SE",
-    magnitud_aparente: -2.7,
-    condiciones_climaticas: "Cielo despejado",
-    observador: "Jhon Sebastián Zuluaga",
-    comentarios: "Se observan claramente las cuatro lunas galileanas."
+    nombre: "Papel de colgadura efecto cemento",
+    descripcion: "Papel decorativo con textura tipo cemento.",
+    sku: "PAP-020",
+    precio: 260000,
+    stock: 20,
+    categoriaId: papelId,
+    colores: ["gris"],
+    materiales: ["vinilo"],
+    medidas: { ancho: 0.53, largo: 10.0, unidad: "m" },
+    ambientesRecomendados: ["sala", "oficina"],
+    activo: true,
+    creadoEn: new Date()
   }
-])
+]);
 
-// 4️⃣ Consultas básicas
-// Mostrar todos los documentos
-db.observaciones.find().pretty()
 
-// Buscar observaciones de Marte
-db.observaciones.find({ objeto: "Marte" }).pretty()
+// Insertar 96 productos de prueba adicionales (total > 100)
+for (let i = 1; i <= 96; i++) {
+  db.productos.insertOne({
+    nombre: "Alfombra tejido plano modelo " + i,
+    descripcion: "Alfombra de prueba para el catálogo, modelo " + i,
+    sku: "ALF-" + (100 + i),
+    precio: 300000 + (i * 2000),
+    stock: 5 + (i % 10),
+    categoriaId: alfombrasId,
+    colores: ["beige", "gris"],
+    materiales: ["polipropileno"],
+    medidas: { ancho: 1.6, largo: 2.3, unidad: "m" },
+    ambientesRecomendados: ["sala"],
+    activo: true,
+    creadoEn: new Date()
+  });
+}
 
-// Buscar observaciones realizadas por Jhon Sebastián Zuluaga
-db.observaciones.find({ observador: "Jhon Sebastián Zuluaga" }).pretty()
+//Inserción de un nuevo producto
+db.productos.insertOne({
+  nombre: "Cojín decorativo lino beige",
+  descripcion: "Cojín decorativo 45x45 cm en lino beige.",
+  sku: "DEC-050",
+  precio: 85000,
+  stock: 25,
+  categoriaId: decoracionId,
+  colores: ["beige"],
+  materiales: ["lino"],
+  medidas: { ancho: 0.45, largo: 0.45, unidad: "m" },
+  ambientesRecomendados: ["sala", "habitación"],
+  activo: true,
+  creadoEn: new Date()
+});
 
-// Actualizar comentario de Marte
-db.observaciones.updateOne(
-  { objeto: "Marte" },
-  { $set: { comentarios: "Marte se observó con gran nitidez, con detalles visibles en la superficie." } }
-)
 
-// Eliminar observación de Orión
-db.observaciones.deleteOne({ objeto: "Orión" })
+// Selección (búsqueda) de todos los productos
+db.productos.find();
 
-// 5️⃣ Consultas de agregación
-// Contar observaciones por tipo de objeto
-db.observaciones.aggregate([
-  { $group: { _id: "$tipo_objeto", total: { $sum: 1 } } }
-])
+//Selección de algunos campos
+db.productos.find(
+  {},
+  { nombre: 1, precio: 1, categoriaId: 1 }
+);
 
-// Promedio de magnitud aparente por tipo de objeto
-db.observaciones.aggregate([
-  { $group: { _id: "$tipo_objeto", promedio_magnitud: { $avg: "$magnitud_aparente" } } }
-])
 
-// Contar observaciones por cada observador
-db.observaciones.aggregate([
-  { $group: { _id: "$observador", total_observaciones: { $sum: 1 } } }
-])
+// Actualización de un producto
+db.productos.updateOne(
+  { sku: "ALF-001" },            
+  { $set: { precio: 550000 } }   
+);
+
+
+// Eliminar un producto
+db.productos.deleteOne({ sku: "DEC-050" });
+
+
+// Consultas productos con precio mayor o igual a 500.000 COP
+db.productos.find({
+  precio: { $gte: 500000 }
+})
+
+  
+//Productos activos con rango de precio
+  db.productos.find({
+  activo: true,
+  precio: { $gte: 300000, $lte: 800000 }
+});
+
+  
+// Búsqueda por nombre con expresión regular
+db.productos.find({
+  nombre: { $regex: "alfombra", $options: "i" }
+});
+
+
+//Consultas de agregación - Número de productos por categoría
+db.productos.aggregate([
+  {
+    $group: {
+      _id: "$categoriaId",
+      totalProductos: { $sum: 1 }
+    }
+  },
+  { $sort: { totalProductos: -1 } }
+]);
+
+//Precio promedio por categoría
+db.productos.aggregate([
+  {
+    $group: {
+      _id: "$categoriaId",
+      precioPromedio: { $avg: "$precio" },
+      precioMinimo: { $min: "$precio" },
+      precioMaximo: { $max: "$precio" }
+    }
+  }
+]);
+
+//Stock total por categoría
+db.productos.aggregate([
+  {
+    $group: {
+      _id: "$categoriaId",
+      stockTotal: { $sum: "$stock" }
+    }
+  },
+  { $sort: { stockTotal: -1 } }
+]);
